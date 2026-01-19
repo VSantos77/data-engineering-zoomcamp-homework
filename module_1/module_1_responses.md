@@ -19,7 +19,7 @@ root@58376df11568:/# pip -V
 pip 25.3 from /usr/local/lib/python3.13/site-packages/pip (python 3.13)
 ```
 
-**R: 25.3**
+**A: 25.3**
 
 ---
 
@@ -29,11 +29,11 @@ The answer is *postgres:5432*.
 - Host name: *postgres* is the container name within the network.
 - Port: likewise, pgadmin can connect directly to postgres using internal port 5432. Local PC port 5433 is not needed.
 
-**R: postgres:5432**
+**A: postgres:5432**
 
 ---
 
-## Question 3
+## Questions 3,4,5,6
 
-See file
+Refer to [Jupyter Notebook](./module_1_taxi_dataset/module_1_taxi_dataset_notebook.ipynb)
 
