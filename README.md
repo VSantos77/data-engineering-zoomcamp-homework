@@ -1,2 +1,4 @@
-# data-engineering-zoomcamp-docker
-Repo for Docker section of module 1 of Data Engineering Zoomcamp 2026
+# data-engineering-zoomcamp-2026-homework
+
+Repo containing homework submissions for Data Engineering Zoomcamp 2026 edition for Santiago Villaverde.
+
