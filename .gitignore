@@ -1,5 +1,7 @@
 .vscode
 .python-version
+service_account_key.json
+keys
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

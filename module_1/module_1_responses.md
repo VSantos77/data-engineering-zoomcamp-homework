@@ -37,3 +37,7 @@ The answer is *postgres:5432*.
 
 Refer to [Jupyter Notebook](./module_1_taxi_dataset/module_1_taxi_dataset_notebook.ipynb)
 
+## Question 7
+
+
+**A: terraform init, terraform apply -auto-approve, terraform destroy**
