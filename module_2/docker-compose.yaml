@@ -1,0 +1,101 @@
+# Declare volumes to persist data
+volumes:
+  ny_taxi_postgres_data:
+    driver: local
+  kestra_postgres_data:
+    driver: local
+  kestra_data:
+    driver: local
+
+services:
+# PostgreSQL database for NY Taxi data
+  pgdatabase:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ny_taxi
+    ports:
+      - "5432:5432"
+    volumes:
+      - ny_taxi_postgres_data:/var/lib/postgresql
+    depends_on:
+      kestra:   
+        condition: service_started  # Ensure Kestra starts before the database
+
+# pgAdmin service for database management
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8085:80"
+    depends_on:
+      pgdatabase:
+        condition: service_started  # Ensure pgdatabase starts before pgadmin
+
+# PostgreSQL DB for internal Kestra data
+  kestra_postgres:
+    image: postgres:18
+    volumes:
+      - kestra_postgres_data:/var/lib/postgresql
+    environment:
+    # Pass ENV variables to container
+      POSTGRES_DB: kestra
+      POSTGRES_USER: kestra
+      POSTGRES_PASSWORD: k3str4
+    healthcheck:
+      # Run a healtcheck to ensure DB is ready before kestra service connects (every 30s, 10 retries)
+      # Double dollar signs ensure env variables are evaluated inside the container
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+# Kestra service
+  kestra:
+    image: kestra/kestra:v1.1
+    pull_policy: always
+    user: "root"
+    command: server standalone  # Run the entire Kestra server in a single container
+    volumes:
+      - kestra_data:/app/storage
+      - /var/run/docker.sock:/var/run/docker.sock   # Allow Kestra to run Docker tasks (e.g python tasks)
+      - /tmp/kestra-wd:/tmp/kestra-wd
+    environment:
+      # Sets the internal db connection for kestra
+      # Sets auth settings and storage settings (e.g output of tasks)
+      # tasks: temporary folder for tasks execution
+      KESTRA_CONFIGURATION: |
+        datasources:
+          postgres:
+            url: jdbc:postgresql://kestra_postgres:5432/kestra
+            driverClassName: org.postgresql.Driver
+            username: kestra
+            password: k3str4
+        kestra:
+          server:
+            basicAuth:
+              username: "admin@kestra.io" # it must be a valid email address
+              password: Admin1234!
+          repository:
+            type: postgres
+          storage:
+            type: local
+            local:
+              basePath: "/app/storage"
+          queue:
+            type: postgres
+          tasks:
+            tmpDir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:8080/
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    # Waits on internal db to start before running server
+    depends_on:
+      kestra_postgres:
+        condition: service_started
+    
