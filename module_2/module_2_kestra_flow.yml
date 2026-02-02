@@ -1,5 +1,3 @@
-Take this Kestra flow as context. I will ask you questions about it:
-
 id: module_02_homework
 namespace: data_engineering_zoomcamp
 description: |
