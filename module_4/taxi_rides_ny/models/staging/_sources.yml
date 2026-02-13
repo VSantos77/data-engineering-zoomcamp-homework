@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: staging
+    description: "Raw data sources for taxi rides in New York City."
+    database: taxi_rides_ny
+    schema: prod
+    tables:
+      - name: yellow_tripdata
+        description: "Raw data for yellow taxi rides."
+      - name: green_tripdata
+        description: "Raw data for green taxi rides."
