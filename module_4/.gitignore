@@ -1,0 +1,18 @@
+# DuckDB files
+*.duckdb
+*.duckdb.wal
+
+# Parquet files
+*.parquet
+
+# Python virtual environments
+.venv/
+venv/
+__pycache__/
+
+# dbt artifacts
+target/
+dbt_packages/
+logs/
+
+setup-guide.md
