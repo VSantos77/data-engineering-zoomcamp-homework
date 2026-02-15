@@ -20,7 +20,7 @@ client = storage.Client.from_service_account_json(CREDENTIALS_FILE)
 # client = storage.Client(project='zoomcamp-mod3-datawarehouse')
 
 
-BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data/"
+BASE_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download"
 DATA_PARAMS = [
     (taxi,year,month) 
     for taxi in ("yellow","green") 
@@ -37,8 +37,15 @@ bucket = client.bucket(BUCKET_NAME)
 
 
 def download_file(data_params):
-    url = f"{BASE_URL}{data_params[0]}_tripdata_{data_params[1]}-{data_params[2]:02d}.parquet"
-    file_path = os.path.join(DOWNLOAD_DIR, f"{data_params[0]}_tripdata_{data_params[1]}-{data_params[2]:02d}.parquet")
+    # Construct the URL and the local file path
+    url = f"{BASE_URL}/{data_params[0]}/{data_params[0]}_tripdata_{data_params[1]}-{data_params[2]:02d}.csv.gz"
+    file_name = f"{data_params[0]}_tripdata_{data_params[1]}-{data_params[2]:02d}.csv.gz"
+    file_path = os.path.join(DOWNLOAD_DIR, file_name)
+
+    # CHECK IF FILE EXISTS
+    if os.path.exists(file_path):
+        print(f"File already exists: {file_path}. Skipping download.")
+        return file_path
 
     try:
         print(f"Downloading {url}...")

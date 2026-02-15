@@ -1,5 +1,5 @@
 with source as (
-    select * from {{ source('staging', 'yellow_tripdata') }}
+    select * from {{ source('staging', 'external_yellow_tripdata') }}
 ),
 
 renamed as (
