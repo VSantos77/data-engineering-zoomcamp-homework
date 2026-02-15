@@ -5,3 +5,7 @@ Repo containing homework submissions for Data Engineering Zoomcamp 2026 edition 
 - Module 1 [DONE]
 - Module 2 [DONE]
 - Module 3 [DONE]
+- Module 4 [DONE]
+- Module 5 [    ]
+- Module 6 [    ]
+- Module 7 [    ]
