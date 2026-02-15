@@ -58,33 +58,82 @@ What is the count of records in the fct_monthly_zone_revenue model?
 - 12,184
 - 15,421
 
+**Answer:**
 
-Question 4. Best Performing Zone for Green Taxis (2020)
+Running
+```
+SELECT COUNT(*) FROM `prod_ny_taxi_dataset.fct_monthly_zone_revenue`
+```
+> 12,184
+
+### Question 4. Best Performing Zone for Green Taxis (2020)
 Using the fct_monthly_zone_revenue table, find the pickup zone with the highest total revenue (revenue_monthly_total_amount) for Green taxi trips in 2020.
 
 Which zone had the highest revenue?
 
-East Harlem North
-Morningside Heights
-East Harlem South
-Washington Heights South
-Question 5. Green Taxi Trip Counts (October 2019)
+- East Harlem North
+- Morningside Heights
+- East Harlem South
+- Washington Heights South
+
+**Answer:**
+
+Running:
+```
+SELECT 
+  pickup_zone,
+  SUM(revenue_monthly_total_amount) AS total_2020_revenue
+FROM `prod_ny_taxi_dataset.fct_monthly_zone_revenue`
+WHERE service_type = 'green'
+AND EXTRACT(YEAR FROM revenue_month) = 2020
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+> East Harlem North - 1815309.55
+
+### Question 5. Green Taxi Trip Counts (October 2019)
 Using the fct_monthly_zone_revenue table, what is the total number of trips (total_monthly_trips) for Green taxis in October 2019?
 
-500,234
-350,891
-384,624
-421,509
-Question 6. Build a Staging Model for FHV Data
+- 500,234
+- 350,891
+- 384,624
+- 421,509
+
+**Answer:**
+
+Running:
+
+```
+SELECT 
+  SUM(total_monthly_trips)
+FROM `prod_ny_taxi_dataset.fct_monthly_zone_revenue`
+WHERE service_type = 'green'
+AND revenue_month = '2019-10-01'
+```
+
+> 384.624
+
+### Question 6. Build a Staging Model for FHV Data
 Create a staging model for the For-Hire Vehicle (FHV) trip data for 2019.
 
 Load the FHV trip data for 2019 into your data warehouse
 Create a staging model stg_fhv_tripdata with these requirements:
 Filter out records where dispatching_base_num IS NULL
 Rename fields to match your project's naming conventions (e.g., PUlocationID → pickup_location_id)
+
 What is the count of records in stg_fhv_tripdata?
 
-42,084,899
-43,244,693
-22,998,722
-44,112,187
+- 42,084,899
+- 43,244,693
+- 22,998,722
+- 44,112,187
+
+**Answer:**
+
+Using:
+```
+SELECT COUNT(*) FROM `prod_ny_taxi_dataset.stg_fhv_tripdata`
+```
+
+> 43,244,693

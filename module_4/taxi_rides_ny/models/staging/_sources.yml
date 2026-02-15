@@ -10,3 +10,5 @@ sources:
         description: "Raw data for yellow taxi rides."
       - name: external_green_tripdata
         description: "Raw data for green taxi rides."
+      - name: external_fhv_data
+        description: "Raw data for for-hire vehicle (FHV) rides in 2019."
