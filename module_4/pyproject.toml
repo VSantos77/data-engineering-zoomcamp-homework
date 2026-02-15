@@ -3,8 +3,11 @@ name = "module-4"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10,<3.13"
 dependencies = [
-    "dbt-duckdb>=1.10.0",
+    "dbt-bigquery>=1.8.0",
     "duckdb>=1.4.4",
+    "google-api>=0.1.12",
+    "google-cloud>=0.34.0",
+    "google-cloud-storage<3.0.0",
 ]
